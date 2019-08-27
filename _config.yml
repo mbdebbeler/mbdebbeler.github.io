@@ -6,7 +6,7 @@
 name: Monica Debbeler
 
 # Short bio or description (displayed in the header)
-description: Aspiring Git Witch
+description: aspiring git witch
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://github.com/mbdebbeler.png
@@ -22,7 +22,7 @@ footer-links:
   facebook:
   flickr:
   github: mbdebbeler
-  instagram: mebbeler
+  instagram:
   linkedin: mbdebbeler
   pinterest:
   rss: # just type anything here for a working RSS icon
