@@ -11,7 +11,7 @@ It is true that languages that support functional programming show up among the 
 
 ### So why is it called ‘functional’ programming? Don’t all languages have functions?
 
-They do! Functional programming is a programming paradigm, or style, where functions are the star of the show. Functional languages tend to leverage first class functions (functions that take other functions as arguments), pure functions (functions that perform no side effects) and recursive functions (functions that call themselves). It’s [functions all the way down](https://en.wikipedia.org/wiki/Turtles_all_the_way_down, "Wikipedia | Turtles All the Way Down").
+They do! Functional programming is a programming paradigm, or style, where functions are the star of the show. Functional languages tend to leverage first class functions (functions that take other functions as arguments), pure functions (functions that perform no side effects) and recursive functions (functions that call themselves). It’s [functions all the way down](https://en.wikipedia.org/wiki/Turtles_all_the_way_down, "Wikipedia - Turtles All the Way Down").
 
 Some languages, like Elixir, Erlang, Elm, Haskell are specifically made for functional programming, but it’s possible to program in a functional style in other languages, too. For example, Javascript and Python both have first-class functions, and even Ruby, the queen of the object-oriented world, has lambdas.
 
@@ -26,13 +26,13 @@ In object-oriented programming, we organize programs using the concept of “obj
 
 By contrast, functional programming believes information and behavior should be kept separate.  Data is generally stored in plain arrays or hashes. These are then passed to tiny functions, which are stacked and sculpted like legos to create desired behavior. As a principle, combining bite-sized methods to get custom behavior isn’t unique to functional programming. It’s called composition, and object-oriented programming uses it too.
 
-![Plush gorilla with sewn-on banana](https://github.com/mbdebbeler/mbdebbeler.github.io/tree/master/images/plush-gorilla.jpg)
+![Plush gorilla with sewn-on banana](https://i.ebayimg.com/images/g/tfcAAOSwKc1cR-52/s-l300.jpg)
 
-_Joe Armstrong's metaphor..._
+_A plush banana that always comes attached to a gorilla._
 
-![Lego gorilla with detachable banana](https://github.com/mbdebbeler/mbdebbeler.github.io/tree/master/images/lego-gorilla.jpg)
+![Lego gorilla with detachable banana](https://images-na.ssl-images-amazon.com/images/I/41gmX9mVmGL._SX425_.jpg)
 
-_...extended. We can reuse the lego banana for our all of our fruit salad sculpture needs!_
+_A Lego banana we can reuse for our fruit salad sculpture needs!_
 
 Another core concept of functional programming is immutability, or the idea that, once stored, the contents of a variable should never be changed. If we need to transform those contents, we'll make a copy and if we’re going to need it later, we save the transformed copy in a new variable. That means there are essentially no variables in functional programming! There are only constants!
 
