@@ -4,7 +4,7 @@ author: Monica Debbeler
 title: What is functional programming?
 ---
 
-Last August, I asked a developer for an example of a trendy topic in programming. “Functional programming” he said. “It’s the cool thing to say you’re into. It’s like putting that you love hiking in your Tinder profile."
+Last August, I asked a developer for an example of a trendy topic in programming. “Functional programming,” he said, “it’s the cool thing to say you’re into. It’s like putting that you love hiking in your Tinder profile."
 
 It is true that languages that support functional programming show up among the most loved languages on the 2018 [Stack Overflow developer survey]( https://insights.stackoverflow.com/survey/2019#technology "Stack Overflow Developer Survey"), but functional programming is no fidget spinner. Its foundation is [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus
  "Wikipedia | Lambda Calculus"), which was developed in the 1930s. The first functional-flavored programming language, Lisp, showed up in the early 1950s.
