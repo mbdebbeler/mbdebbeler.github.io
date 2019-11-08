@@ -1,55 +1,60 @@
 ---
 layout: post
 author: Monica Debbeler
-title: Parsing Recipes in Elixir with `leex`
+title: Parsing Recipes in Elixir with leex
 ---
 
-For the first project in my apprenticeship, I decided to learn Elixir by making a command line cookbook app. My inspiration? I had a pile of disorganized .txt files from my travels last year. In their place, I wanted an index of neatly listed titles, where I could toggle back and forth between consistently formatted recipes, retrieving a grocery list at the tap of a key.
+For the first project in my apprenticeship, I made a command line cookbook app in Elixir. My inspiration? The folder of disorganized .txt files on my Desktop. In their place, my app would display a neat index of titles, where I could toggle back and forth between consistently formatted recipes, summoning a grocery list at the tap of a key.
 
 **The Challenge**
 
-The first version of my Parser module was a disaster.
+The first version of my `Parser` module was a disaster.
 
-First, it needed to know an enormous number of details about a recipe in order to split it up into sections, let alone to generate a grocery list.
+First, it needed to know an enormous number of details about a recipe in order to split the file up into sections, let alone to generate a grocery list.
 
 ```Elixir
 def is_before_section_break(remaining_lines) do
   section_break_index = Enum.find_index(remaining_lines, fn x -> x == "" end)
   Enum.slice(remaining_lines, 0..(section_break_index - 1))
 end
+
+# A function that knows too much about the .txt file it's parsing.
+# It splices the lines between "Ingredients:" and an empty line.
+# What if the recipe author double-spaced the ingredients? Disaster.
 ```
-This function was intended to cleave off just the lines between "Ingredients:" and an empty line. But what if the recipe author had divided their ingredients into sections with newlines?
 
-Worse, the logic driving the output was tightly coupled to my CommandLineUI. It relied almost entirely on the line breaks of the .txt file to determine what was an ingredient or directions, and it delivered the parsed output in an array of line-long strings. There was no way it would be able to cleanly plug into to a web-based UI.
+Worse, the logic was tightly coupled to `CommandLineUI`. It relied almost entirely on those line breaks to determine what was an ingredient versus a direction, and it delivered the parsed output in an array of line-long strings. There was no way it would be able to cleanly plug into to a web-based UI.
 
-*Output Option A: a long string formatted with newlines:*
 ```Elixir
+# Output Option A: a long string formatted with newlines:
+
 "Title:\nIce Cubes\n\nIngredients:\n2 cups water (approximately)\n2 tablespoons water (additional if needed)\n\nDirections:\n- Empty any ice cubes that are left in the trays into the bin.\n- Take the trays over to the sink and fill them with water. (Tip: hot water will freeze faster and the cubes will be more clear.)\n- Place the water-filled ice trays back in the freezer.\n- Replace the ice bin if you had to remove it.\n- Shut the door to the freezer.\n- Be sure to leave for around 4-6 hours at least to make sure it is frozen.\n"
 ```
-*Output Option B: an array of formatted strings representing ingredients:*
 ```Elixir
+# Output Option B: an array of formatted strings representing ingredients:
+
 ["- 2 cups water (approximately)\n", "- 2 tablespoons water (additional if needed)\n"]
 ```
 
-Worst of all, this implementation was brittle to future requirements changes. What if in the future, we wanted to increment the number of servings, or combine grocery lists for two different recipes? This method treated ingredients as solid blocks, instead of a nested piece of information containing a quantity, unit, and ingredient. I could pull out the integers or first character on a line, but then what about fractions? What about ingredients with no units, like "salt and pepper to taste?" What if we just wanted to view the directions of the recipe?
+Worst of all, this implementation was brittle to future requirements changes. What if in the future, we wanted to increment the number of servings, or combine grocery lists for two different recipes? This method treated ingredients as solid blocks, instead of a nested piece of information containing a quantity, unit, and ingredient. I could pull out the integers or first character on a line, but then what about fractions? What about ingredients with no units, like "salt and pepper to taste?" What if we only wanted to view the directions of the recipe?
 
-I needed a way to break down each recipe into tiny pieces and stitch it back together, storing the most important information in a way that would be easy to access, aggregate and manipulate.
+I needed a way to break down each recipe into tiny pieces and stitch them back together, storing the most important information in a way that would be easy to access, aggregate and manipulate.
 
-**My Solution: inspired by the Compiler**
+**The Solution: get inspired by the Compiler!**
 
 To solve this problem, I decided to make the `Parser` module work like a compiler.
 
 ![CompilerFlowChart](../images/ParserGraphic.svg)
 
 A compiler translates code from one language to another. It works in three phases:
-1. The lexer scans each character of your code, uses preset rules to decide what characters should be stored together in a "token," and returns a list of tokens.
-2. The parser reads the list of tokens and uses grammar to decide how to translate the tokens into an Abstract Syntax Tree.
-3. The generator walks the Abstract Syntax Tree and returns the structured data you need.    
+1. The lexer scans each character of your code, applies preset rules to decide which characters should be stored together in a "token," and returns a list of tokens.
+2. The parser reads the list of tokens and applies grammar to decide how to translate the tokens into an Abstract Syntax Tree.
+3. The generator walks the Abstract Syntax Tree and returns structured data.    
 
 
 **How It Works**
 
-In my `Parser` module, `parse/1` reads the .txt file and passes that long string to `Lexer.lex/1`. The `Lexer` module uses a "regular expression based lexical analyer generator for Erlang" called `leex`. That's a very long description. Basically, `leex` takes a charlist, uses a list of rules you wrote to clump it into meaningful blobs, and returns a list of tokens, which are tuples in the format `{type, line_number, value}`.
+In `Parser`, `parse/1` reads the .txt file and passes that long string to `Lexer.lex/1`. The `Lexer` module uses a "regular expression based lexical analyer generator for Erlang" called `leex`. That's a very long description. Basically, `leex` takes a charlist, uses a list of rules you wrote to clump it into meaningful blobs, and returns a list of tokens, which are tuples in the format `{type, line_number, value}`.
 
 To use `leex`, I simply created a `src` directory in my project and then wrote the rules for each type of token in a `.xrl` file.
 
