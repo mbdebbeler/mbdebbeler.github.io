@@ -4,7 +4,7 @@ author: Monica Debbeler
 title: Parsing Recipes in Elixir with leex
 ---
 
-For the first project in my apprenticeship, I made a command line cookbook app in Elixir. My inspiration? The folder of disorganized .txt files on my Desktop. In their place, my app would display a neat index of titles, where I could toggle back and forth between consistently formatted recipes, summoning a grocery list at the tap of a key.
+For the first project in my apprenticeship, I made a command line cookbook app in Elixir. My app would replace the folder of .txt files on my desktop with a neat index of titles, where I could toggle back and forth between consistently formatted recipes, summoning a grocery list at the tap of a key.
 
 **The Challenge**
 
