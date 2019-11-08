@@ -56,7 +56,7 @@ A compiler translates code from one language to another. It works in three phase
 
 In `Parser`, `parse/1` reads the .txt file and passes that long string to `Lexer.lex/1`. The `Lexer` module uses a "regular expression based lexical analyer generator for Erlang" called `leex`. That's a very long description. Basically, `leex` takes a charlist, uses a list of rules you wrote to clump it into meaningful blobs, and returns a list of tokens, which are tuples in the format `{type, line_number, value}`.
 
-To use `leex`, I simply created a `src` directory in my project and then wrote the rules for each type of token in a `.xrl` file.
+To use `leex`, I simply created a `src` directory in my project and then wrote the rules for each type of token in a `.xrl` file:
 
 Here are my rules:
 
@@ -88,7 +88,9 @@ Rules.
 Erlang code.
 ```
 
-And here is my `Lexer.lex/1` function:
+Because Elixir is built on Erlang, `leex` comes baked in! When you run your code, `Mix` will compile that `recipe_lexer.xrl` file into a `recipe_lexer.erl` file. So easy!
+
+Here is my `Lexer` module, which accesses the `recipe_lexer.erl` file with `:recipe_lexer`:
 
 ```Elixir
 defmodule Lexer do
@@ -100,9 +102,7 @@ defmodule Lexer do
   end
 ```
 
-Because Elixir is built on Erlang, `leex` comes baked in! When you run your code, `Mix` will compile that `.xrl` file into a `.erl` file. So easy!
-
-The list of tokens generated looks like this:
+The tokens look like this:
 
 ```Elixir
 [
@@ -142,8 +142,6 @@ The list of tokens generated looks like this:
 ```
 
 The lexer passes the flat list of tokens back to `Parser`, which uses a chain of Elixir functions to parse it into a nested `%Recipe{}` struct that contains a title, servings, ingredients and directions.
-
-The struct looks like this:
 
 ```Elixir
 %Recipe{
@@ -240,4 +238,4 @@ Even better, it now parses ingredients into their own data structures, and can e
 
 ```
 
-To see more of the code, feel free to check out the repo on Github! Thanks to Thomas Countz and Cameron Price, whose blog posts on their compiler-inspired adventures greatly contributed to the success of this project implementation.
+To see more of the code, feel free to check out the repo on [Github](https://github.com/mbdebbeler/apprenticeship-recipe-book)! Thanks to Thomas Countz and Cameron Price, whose blog posts on their compiler-inspired adventures guided this implementation from start to finish.
