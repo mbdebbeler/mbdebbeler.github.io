@@ -69,7 +69,6 @@ kramdown:
     css_class: 'highlight'
         block:
             line_numbers: true
-            wrap: true
 
 # Set the Sass partials directory, as we're using @imports
 sass:
